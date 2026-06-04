@@ -1,0 +1,22 @@
+{
+  "name": "playwright_research",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.97.1",
+    "@faker-js/faker": "^10.4.0",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.7.0",
+    "allure-playwright": "^3.8.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^6.39.0"
+  }
+}
