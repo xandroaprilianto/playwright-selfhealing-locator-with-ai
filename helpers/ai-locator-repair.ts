@@ -27,16 +27,36 @@ export async function runAiLocatorRepair(
     return null;
   }
 
+  // Build V2 context block if available
+  const contextLines: string[] = [];
+  if (originalDescriptor.intent) {
+    contextLines.push(`Element Intent: "${originalDescriptor.intent}"`);
+  }
+  if (originalDescriptor.preferredLocator) {
+    contextLines.push(`Preferred Locator Strategy: ${originalDescriptor.preferredLocator}`);
+  }
+  if (originalDescriptor.previousAttributes) {
+    contextLines.push(`Previous Attributes: ${JSON.stringify(originalDescriptor.previousAttributes)}`);
+  }
+  if (originalDescriptor.parentContext) {
+    contextLines.push(`Parent Context: ${JSON.stringify(originalDescriptor.parentContext)}`);
+  }
+  const v2Context = contextLines.length > 0
+    ? `\nAdditional Context (use this to reduce ambiguity):\n${contextLines.join('\n')}\n`
+    : '';
+
   const prompt = `You are a test automation self-healing locator assistant.
 A test locator failed on a webpage. Your task is to analyze the accessibility snapshot of the current page and propose a repaired/new ElementDescriptor to locate the target element.
 
 Target Element Debug Name: "${debugName}"
 Original ElementDescriptor: ${JSON.stringify(originalDescriptor, null, 2)}
-
+${v2Context}
 Accessibility Snapshot of current page:
 ${JSON.stringify(snapshot, null, 2)}
 
 Based on the original descriptor and the accessibility snapshot, find the corresponding element. Propose the best matching attributes for a new ElementDescriptor.
+${originalDescriptor.intent ? `IMPORTANT: The element's purpose is "${originalDescriptor.intent}". Use this to disambiguate between similar elements.` : ''}
+${originalDescriptor.preferredLocator ? `IMPORTANT: Prefer using "${originalDescriptor.preferredLocator}" strategy if the attribute is available in the snapshot.` : ''}
 Format the output as a clean JSON object adhering to the ElementDescriptor interface:
 {
   "role": "...",     // role name (e.g. "button", "link", "textbox")

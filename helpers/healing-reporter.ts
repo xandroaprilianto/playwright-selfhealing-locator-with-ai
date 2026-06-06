@@ -13,7 +13,7 @@ interface HealingEventRecord {
   originalDescriptor: Record<string, unknown>;
   healedDescriptor?: Record<string, unknown>;
   confidenceScore?: number;
-  confidenceBreakdown?: Record<string, number>;
+  confidenceBreakdown?: Record<string, unknown>;
   timestamp: number;
 }
 
@@ -33,7 +33,7 @@ export interface SelfHealingSummaryJson {
     oldLocator: Record<string, unknown>;
     aiRecommendedLocator?: Record<string, unknown>;
     confidenceScore?: number;
-    confidenceBreakdown?: Record<string, number>;
+    confidenceBreakdown?: Record<string, unknown>;
     timestamp: number;
   }>;
   statistics: {
@@ -70,7 +70,7 @@ export default class HealingReporter implements Reporter {
           originalDescriptor?: Record<string, unknown>;
           healedDescriptor?: Record<string, unknown>;
           confidenceScore?: number;
-          confidenceBreakdown?: Record<string, number>;
+          confidenceBreakdown?: Record<string, unknown>;
           timestamp: number;
         }> = JSON.parse(content);
 
