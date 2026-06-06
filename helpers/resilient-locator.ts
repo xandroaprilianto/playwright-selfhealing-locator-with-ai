@@ -7,6 +7,19 @@ export interface ElementDescriptor {
   text?: string | RegExp;
   label?: string;
   css?: string; // last resort — isi hanya jika tidak ada alternatif
+
+  // ── V2: Rich Context Metadata ──────────────────────────────────────────────
+  intent?: string;
+  preferredLocator?: 'testId' | 'role' | 'label' | 'css';
+  previousAttributes?: {
+    placeholder?: string;
+    type?: string;
+    dataTestId?: string;
+  };
+  parentContext?: {
+    section?: string;
+    nearbyText?: string[];
+  };
 }
 
 export class ResilientLocator {

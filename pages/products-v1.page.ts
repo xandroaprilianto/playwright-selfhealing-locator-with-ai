@@ -21,11 +21,31 @@ export class ProductsV1Page extends BasePage {
     super(page);
     this.addProductBtn = new SelfHealingLocator(page, { role: 'button', name: 'Tambah Produk' }, 'Add Product Button');
 
+    // ── V1 Descriptor (Post #2 — Minimal context) ──────────────────────────────
+    // this.searchInput = new SelfHealingLocator(
+    //   page,
+    //   {
+    //     label: 'Cari produk',
+    //     css: 'input[placeholder="Cari produk berdasarkan nama..."]',
+    //   },
+    //   'Products V1 Search Input'
+    // );
+
+    // ── V2 Descriptor (Post #3 — Rich context / Garbage In, Garbage Out) ─────
     this.searchInput = new SelfHealingLocator(
       page,
       {
         label: 'Cari produk',
         css: 'input[placeholder="Cari produk berdasarkan nama..."]',
+        intent: 'main product search input',
+        preferredLocator: 'role',
+        previousAttributes: {
+          placeholder: 'Cari produk berdasarkan nama...',
+        },
+        parentContext: {
+          section: 'product list page',
+          nearbyText: ['Toko Kami', 'Tambah Produk'],
+        },
       },
       'Products V1 Search Input'
     );
